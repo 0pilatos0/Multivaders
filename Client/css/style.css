@@ -1,4 +1,20 @@
+@font-face {
+    font-family: "Gunplay";
+    src: url(../fonts/gunplay3.ttf) format("truetype");
+}
+
 body{
     margin: 0;
     background: #333;
+}
+
+canvas{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img{
+    image-rendering: pixelated;
 }

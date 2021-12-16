@@ -1,6 +1,7 @@
 require('dotenv').config()
 const http = require('http')
 const io = require('socket.io')
+const HandlePlayer = require('../Handlers/PlayerHandler')
 
 global.clients = {}
 
@@ -27,7 +28,10 @@ module.exports = class Server{
             socket.use((packet, next) => {
                 //TODO use this as a middleware for security
                 //console.log(packet, next)
+                next()
             })
+
+            HandlePlayer(socket)
 
             socket.on('disconnect', () => {
                 console.log(`-${socket.id}`)

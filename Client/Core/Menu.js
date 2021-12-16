@@ -19,4 +19,8 @@ export default class Menu{
     add(){
         document.body.appendChild(this.menu)
     }
+
+    get visible(){
+        return this.menu.style.display != "none"
+    }
 }
