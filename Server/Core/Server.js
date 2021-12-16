@@ -2,6 +2,7 @@ require('dotenv').config()
 const http = require('http')
 const io = require('socket.io')
 const HandlePlayer = require('../Handlers/PlayerHandler')
+const Logger = require('../Core/Logger')
 
 global.clients = {}
 
@@ -22,6 +23,7 @@ module.exports = class Server{
         })
 
         this.#io.on('connection', (socket) => {
+            Logger.log("Client connected", `Client has connected succesful using socket id: ${socket.id}`, "no futher actions needed", "12370112")
             console.log(`+${socket.id}`)  
             global.clients[socket.id] = {socket}
 
@@ -34,6 +36,7 @@ module.exports = class Server{
             HandlePlayer(socket)
 
             socket.on('disconnect', () => {
+                Logger.log("Client disconnected", `Client has disconnected succesful using socket id: ${socket.id}`, "no futher actions needed", "9936031")
                 console.log(`-${socket.id}`)
                 delete global.clients[socket.id]
             })
