@@ -1,8 +1,8 @@
-export default class JSONLoader{
+export default class ScriptLoader{
     static Load(path){
         return new Promise((resolve, reject) => {
             let xhr = new XMLHttpRequest();
-            xhr.responseType = "json";
+            xhr.responseType = "text";
             xhr.open('GET', path, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
