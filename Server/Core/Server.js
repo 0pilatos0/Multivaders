@@ -20,6 +20,7 @@ module.exports = class Server{
     constructor() {
         this.#http.listen(process.env.PORT, () => {
             console.log(`Server listening on http://localhost:${this.#http.address().port}`)
+            Logger.log("Server started", "Server has been started succesful", "no futher actions needed", "3066993");
         })
 
         this.#io.on('connection', (socket) => {
