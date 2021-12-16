@@ -1,7 +1,7 @@
 // const client = io()
 import JSONLoader from "./Core/Loaders/JSONLoader.js";
 
-JSONLoader.Load("/Client/config.json").then(config => {
+JSONLoader.Load("config.json").then(config => {
     const client = io(config.SERVER_URL, {'reconnection': true, 'reconnectionDelay': 1000, 'reconnectionDelayMax': 2000})
 
     client.on('connect', () => {
