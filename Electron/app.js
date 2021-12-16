@@ -1,12 +1,14 @@
 const { app, BrowserWindow } = require('electron')
 
 const createWindow = () => {
+    const { width, height } = require('electron').screen.getPrimaryDisplay().workAreaSize
     const win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: width,
+        height: height,
         autoHideMenuBar: true,
         icon: '../Client/icon.png'
     })
+    win.maximize()
     win.loadFile("../Client/index.html")
 }
 
