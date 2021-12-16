@@ -48,4 +48,14 @@ export default class Loader extends Menu{
         super.show()
         this.#interval = setInterval(this.#changeCallback, this.#intervalTime)
     }
+
+    remove(){
+        super.remove()
+        clearInterval(this.#interval)
+    }
+
+    add(){
+        super.add()
+        this.#interval = setInterval(this.#changeCallback, this.#intervalTime)
+    }
 }

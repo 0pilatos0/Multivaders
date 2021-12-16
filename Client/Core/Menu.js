@@ -15,4 +15,8 @@ export default class Menu{
     remove(){
         this.menu.remove()
     }
+
+    add(){
+        document.body.appendChild(this.menu)
+    }
 }
