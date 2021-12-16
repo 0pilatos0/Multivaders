@@ -5,6 +5,7 @@ const createWindow = () => {
         width: 800,
         height: 600,
         autoHideMenuBar: true,
+        icon: '../Client/icon.png'
     })
     win.loadFile("../Client/index.html")
 }
