@@ -10,6 +10,8 @@
 }
 #main-menu img{
     height: 100vh;
+    top: -5vh;
+    left: -10vw;
     position: absolute;
     animation: rotate 100s ease-in-out infinite;
 }
