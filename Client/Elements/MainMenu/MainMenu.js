@@ -13,6 +13,8 @@ export default class MainMenu extends Menu{
             this.playButton = document.getElementById('play')
             this.playButton.addEventListener('click', () => {
                 this.hide()
+                window.canvas.add()
+                window.client.emit('join')
             })
 
             //settings button logic
