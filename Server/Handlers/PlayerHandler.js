@@ -4,7 +4,7 @@ const Vector2 = require("../Core/Vector2");
 
 module.exports = function HandlePlayer(socket){
     socket.on('join', (data) => {
-        global.clients[socket.id].player = new Player(new Vector2(1920 / 2 - 32, 1080 - 100), new Vector2(64, 64));
+        global.clients[socket.id].player = new Player(new Vector2(1920 / 2 - 32, 1080 - 64), new Vector2(64, 64));
         socket.emit('player', {
             sprite:`data:image/png;base64,${fs.readFileSync('./assets/player.png').toString('base64')}`,
             position: new Vector2(100, 500),

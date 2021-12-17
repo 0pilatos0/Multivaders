@@ -18,21 +18,48 @@ export default class Canvas extends Menu{
     }
 
     resize(){
+        let width = window.innerWidth
         let height = window.innerHeight
-        let width = height * (16 / 9)
-        if(width > window.innerWidth){
-            width = window.innerWidth
-            height = width * (9 / 16)
-        }
+        
+        // let height = window.innerHeight - 200
+        // let width = height * (8 / 7) //3 / 4 || 16 / 9
+        // if(width > window.innerWidth - 200){
+        //     width = window.innerWidth - 200
+        //     height = width * (7 / 8)
+        // }
 
         this.scale = Math.max(height / 1080, width / 1920)
-        
+
+
+        // console.log(window.innerWidth, window.innerHeight)
+
+        // console.log(window.innerWidth * this.scale)
+
+        let gameWidth = width - 200
+        let gameHeight = gameWidth * (8 / 7)
+
+        if(gameHeight > gameWidth){
+            gameHeight = height - 400
+            gameWidth = gameHeight * (7 / 8)
+        }
+
         this.menu.width = width
         this.menu.height = height
+
+        this.gameWidth = gameWidth
+        this.gameHeight = gameHeight
+
+        // console.log(this.gameWidth, this.gameHeight)
+
+        // console.log(gameWidth, gameHeight)
+        this.scale = 1
+        
+        // this.menu.width = width
+        // this.menu.height = height
     }
 
     get size(){
-        return new Vector2(window.innerWidth, window.innerHeight)
+        return new Vector2(this.menu.width, this.menu.height)
     }
 
     clear(){
@@ -44,6 +71,7 @@ export default class Canvas extends Menu{
 
     add(){
         super.add()
+        this.resize()
         this.clear()
         window.addEventListener('resize', this.#resizeListener)
     }
@@ -60,17 +88,30 @@ export default class Canvas extends Menu{
         if(!this.visible) return
         this.clear()
         this.ctx.fillStyle = "#fff"
-        // this.ctx.strokeStyle = "#fff"
-        // this.ctx.beginPath()
-        // this.ctx.moveTo(this.size.x / 2, 0)
+        this.ctx.strokeStyle = "#fff"
+        this.ctx.beginPath()
+        this.ctx.moveTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
+        this.ctx.lineTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
+        this.ctx.moveTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
+        this.ctx.lineTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
+        this.ctx.moveTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
+        this.ctx.lineTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
+        this.ctx.moveTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
+        this.ctx.lineTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
+        // this.ctx.lineTo, y)
+        // this.ctx.moveTo(this.size.x + this.gameWidth / 2, this.size.y - this.gameHeight / 2)
+        // this.ctx.lineTo(this.size.x + this.gameWidth / 2, this.size.y + this.gameHeight / 2)
+        // this.ctx.moveTo(this.size.x - this.gameWidth / 2, this.gameHeight)
+        // this.ctx.lineTo(this.gameWidth / 2, this.gameHeight)
+        // this.ctx.lineTo(this.gameWidth / 2, this.gameHeight / 2)
         // this.ctx.lineTo(this.size.x / 2, this.size.y)
-        // this.ctx.stroke()
+        this.ctx.stroke()
         // GameObject.GameObjects.map(gameObject => {
         //     gameObject.draw(this.ctx, this.scale)
         // })
-        MultiplayerObject.MultiplayerObjects.map(gameObject => {
-            gameObject.draw(this.ctx, this.scale)
-        })
+        // MultiplayerObject.MultiplayerObjects.map(gameObject => {
+        //     gameObject.draw(this.ctx, this.scale)
+        // })
         const t1 = performance.now()
         let deltaTime = (t1 - t0)
         let fps = Math.round(10/deltaTime)
