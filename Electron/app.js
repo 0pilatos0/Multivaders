@@ -1,10 +1,10 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, screen } = require('electron')
 
 const createWindow = () => {
-    const { width, height } = require('electron').screen.getPrimaryDisplay().workAreaSize
+    // const { width, height } = screen.getPrimaryDisplay().size
     const win = new BrowserWindow({
-        width: width,
-        height: height,
+        // width: width,
+        // height: height,
         autoHideMenuBar: true,
         icon: '../Client/icon.png'
     })
