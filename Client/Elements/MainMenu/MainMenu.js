@@ -18,7 +18,8 @@ export default class MainMenu extends Menu{
             //settings button logic
             this.settingsButton = document.getElementById('options')
             this.settingsButton.addEventListener('click', () => {
-                // this.hide()
+                this.hide()
+                window.optionsMenu.show()
             })
             
             //credits button logic

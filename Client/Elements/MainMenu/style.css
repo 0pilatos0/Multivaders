@@ -7,6 +7,7 @@
     left: 0;
     z-index: 100;
     display: flex;
+    color: white;
 }
 #main-menu img{
     height: 110vh;
