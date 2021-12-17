@@ -24,7 +24,7 @@ module.exports = class Server{
         })
 
         this.#io.on('connection', (socket) => {
-            Logger.log("Client connected", `Client has connected succesful using socket id: ${socket.id}`, "no futher actions needed", "12370112")
+            Logger.Log("Client connected", `Client has connected succesful using socket id: ${socket.id}`, "no futher actions needed", "12370112")
             console.log(`+${socket.id}`)  
             global.clients[socket.id] = {socket}
 
