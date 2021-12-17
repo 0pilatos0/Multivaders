@@ -30,7 +30,7 @@ export default class MainMenu extends Menu{
             //exit button logic
             this.exitButton = document.getElementById('exit')
             this.exitButton.addEventListener('click', () => {
-                this.hide()
+                window.close()
             })
 
 
