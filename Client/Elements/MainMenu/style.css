@@ -12,6 +12,14 @@
     height: 100vh;
     animation: rotate 100s ease-in-out infinite;
 }
+@media screen and (max-width: 1920px){
+    #main-menu img{
+        position: absolute;
+        transform: translateX(-40vw);
+    }
+}
+    
+
 #main-menu .menucontent{
     width: 100vw;
     text-align: right;
