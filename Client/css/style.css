@@ -2,6 +2,10 @@
     font-family: "Gunplay";
     src: url(../fonts/gunplay3.ttf) format("truetype");
 }
+@font-face {
+    font-family: "Roboto";
+    src: url(../fonts/Roboto-Medium.ttf) format("truetype");
+}
 
 body{
     margin: 0;
