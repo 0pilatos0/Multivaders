@@ -15,7 +15,7 @@
 @media screen and (max-width: 1920px){
     #main-menu img{
         position: absolute;
-        transform: translateX(-40vw);
+        left: -35vw;
     }
 }
     
