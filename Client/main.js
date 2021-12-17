@@ -3,10 +3,13 @@ import JSONLoader from "./Core/Loaders/JSONLoader.js";
 import ScriptLoader from "./Core/Loaders/ScriptLoader.js";
 import Loader from "./Elements/Loader/Loader.js";
 import HandlePlayer from "./Handlers/PlayerHandler.js";
+
 import MainMenu from "./Elements/MainMenu/MainMenu.js";
+import OptionsMenu from "./Elements/OptionsMenu/OptionsMenu.js";
 
 let connectingLoader = new Loader("Connecting to server")
-let mainMenu = new MainMenu()
+window.mainMenu = new MainMenu()
+window.optionsMenu = new OptionsMenu()
 window.canvas = new Canvas()
 window.canvas.remove()
 
@@ -19,7 +22,7 @@ JSONLoader.Load("config.json").then(config => {
         window.client.on('connect', () => {
             console.log("connected to server")
             connectingLoader.hide()
-            mainMenu.show()
+            window.mainMenu.show()
 
             //TODO init game
             // canvas.add()
