@@ -20,7 +20,7 @@ module.exports = class Server{
     constructor() {
         this.#http.listen(process.env.PORT, () => {
             console.log(`Server listening on http://localhost:${this.#http.address().port}`)
-            Logger.log("Server started", "Server has been started succesful", "no futher actions needed", "3066993");
+            Logger.Log("Server started", "Server has been started succesful", "no futher actions needed", "3066993")
         })
 
         this.#io.on('connection', (socket) => {
@@ -37,7 +37,7 @@ module.exports = class Server{
             HandlePlayer(socket)
 
             socket.on('disconnect', () => {
-                Logger.log("Client disconnected", `Client has disconnected succesful using socket id: ${socket.id}`, "no futher actions needed", "9936031")
+                Logger.Log("Client disconnected", `Client has disconnected succesful using socket id: ${socket.id}`, "no futher actions needed", "9936031")
                 console.log(`-${socket.id}`)
                 delete global.clients[socket.id]
             })

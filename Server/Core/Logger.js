@@ -3,7 +3,7 @@ require('dotenv').config()
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
 
 module.exports = class Logger{
-    static log(title, smallTitle, description = "no futher actions needed", color){
+    static async Log(title, smallTitle, description = "no futher actions needed", color){
         //color codes can be found here https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
         this.params = {
             username: "Server Logs",
@@ -27,7 +27,7 @@ module.exports = class Logger{
                 }
             ]
         }
-        fetch(process.env.SERVERWEBHOOK, {
+        await fetch(process.env.SERVERWEBHOOK, {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
