@@ -33,6 +33,6 @@ module.exports = class Logger{
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(this.params)
-        })
+        }).catch(err => console.log(err))
     }
 }
