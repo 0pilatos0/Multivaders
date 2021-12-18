@@ -10,14 +10,15 @@ import OptionsMenu from "./Elements/OptionsMenu/OptionsMenu.js";
 let connectingLoader = new Loader("Connecting to server")
 window.mainMenu = new MainMenu()
 window.optionsMenu = new OptionsMenu()
-window.canvas = new Canvas()
-window.canvas.remove()
 
 JSONLoader.Load("config.json").then(config => {
     ScriptLoader.Load(`https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js`).then((data) => {
         eval(data)
     
         window.client = io(`${config.SERVER_URL}`, {'reconnection': true, 'reconnectionDelay': 1000, 'reconnectionDelayMax': 2000})
+
+        window.canvas = new Canvas()
+        window.canvas.remove()
     
         window.client.on('connect', () => {
             console.log("connected to server")

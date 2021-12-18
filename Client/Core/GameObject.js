@@ -8,8 +8,8 @@ export default class GameObject{
         GameObject.GameObjects.push(this)
     }
 
-    draw(ctx, scale){
-        ctx.drawImage(this.sprite, this.position.x * scale, this.position.y * scale, this.size.x * scale, this.size.y * scale)
+    draw(ctx, scale, offset){
+        ctx.drawImage(this.sprite, this.position.x * scale + offset.x, this.position.y * scale + offset.y, this.size.x * scale, this.size.y * scale)
     }
 
     update(){

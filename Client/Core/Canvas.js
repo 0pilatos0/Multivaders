@@ -1,11 +1,14 @@
 import GameObject from "./GameObject.js"
+import GameWindow from "./GameWindow.js"
 import Menu from "./Menu.js"
 import MultiplayerObject from "./MultiplayerObject.js"
 import Vector2 from "./Vector2.js"
 
 export default class Canvas extends Menu{
+    #mainWindow
     #resizeListener = () => { this.resize() }
     #fps = 0
+    #serverSize = new Vector2(0, 0)
 
     constructor() {
         super()
@@ -14,26 +17,16 @@ export default class Canvas extends Menu{
         this.ctx = this.menu.getContext('2d')
         this.ctx.imageSmoothingEnabled = false
         this.resize()
+        window.client.on('size', (size) => {
+            this.#serverSize = size
+            this.resize()
+        })
         window.requestAnimationFrame(this.update.bind(this))
     }
 
     resize(){
         let width = window.innerWidth
         let height = window.innerHeight
-        
-        // let height = window.innerHeight - 200
-        // let width = height * (8 / 7) //3 / 4 || 16 / 9
-        // if(width > window.innerWidth - 200){
-        //     width = window.innerWidth - 200
-        //     height = width * (7 / 8)
-        // }
-
-        this.scale = Math.max(height / 1080, width / 1920)
-
-
-        // console.log(window.innerWidth, window.innerHeight)
-
-        // console.log(window.innerWidth * this.scale)
 
         let gameWidth = width - 200
         let gameHeight = gameWidth * (8 / 7)
@@ -49,13 +42,9 @@ export default class Canvas extends Menu{
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
 
-        // console.log(this.gameWidth, this.gameHeight)
+        this.#mainWindow = new GameWindow(new Vector2(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2), new Vector2(this.gameWidth, this.gameHeight))
 
-        // console.log(gameWidth, gameHeight)
-        this.scale = 1
-        
-        // this.menu.width = width
-        // this.menu.height = height
+        this.scale = Math.max(gameHeight / this.#serverSize.y, gameWidth / this.#serverSize.x)
     }
 
     get size(){
@@ -89,23 +78,7 @@ export default class Canvas extends Menu{
         this.clear()
         this.ctx.fillStyle = "#fff"
         this.ctx.strokeStyle = "#fff"
-        this.ctx.beginPath()
-        this.ctx.moveTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
-        this.ctx.lineTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
-        this.ctx.moveTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
-        this.ctx.lineTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
-        this.ctx.moveTo(this.size.x / 2 + this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
-        this.ctx.lineTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
-        this.ctx.moveTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 + this.gameHeight / 2)
-        this.ctx.lineTo(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2)
-        // this.ctx.lineTo, y)
-        // this.ctx.moveTo(this.size.x + this.gameWidth / 2, this.size.y - this.gameHeight / 2)
-        // this.ctx.lineTo(this.size.x + this.gameWidth / 2, this.size.y + this.gameHeight / 2)
-        // this.ctx.moveTo(this.size.x - this.gameWidth / 2, this.gameHeight)
-        // this.ctx.lineTo(this.gameWidth / 2, this.gameHeight)
-        // this.ctx.lineTo(this.gameWidth / 2, this.gameHeight / 2)
-        // this.ctx.lineTo(this.size.x / 2, this.size.y)
-        this.ctx.stroke()
+        this.#mainWindow.draw(this.ctx, this.scale)
         // GameObject.GameObjects.map(gameObject => {
         //     gameObject.draw(this.ctx, this.scale)
         // })

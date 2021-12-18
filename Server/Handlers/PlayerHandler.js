@@ -2,14 +2,19 @@ const Player = require("../GameObjects/Player");
 const fs = require('fs');
 const Vector2 = require("../Core/Vector2");
 
+let width = 1400
+let height = 1600
+
 module.exports = function HandlePlayer(socket){
     socket.on('join', (data) => {
-        global.clients[socket.id].player = new Player(new Vector2(1920 / 2 - 32, 1080 - 64), new Vector2(64, 64));
+        let player = new Player(new Vector2(width / 2 - 32, height / 2 - 32), new Vector2(64, 64));
+        global.clients[socket.id].player = player
         socket.emit('player', {
             sprite:`data:image/png;base64,${fs.readFileSync('./assets/player.png').toString('base64')}`,
-            position: new Vector2(100, 500),
-            size: new Vector2(64, 64)
+            position: player.position,
+            size: player.size
         })
+        socket.emit('size', new Vector2(width, height))
     })
 }
 
