@@ -1,5 +1,9 @@
 export default class Input{
     static pressedKeys = []
+    
+    static Pressed(key){
+        return Input.pressedKeys.indexOf(key) > -1
+    }
 }
 
 window.addEventListener('keydown', (e) => {

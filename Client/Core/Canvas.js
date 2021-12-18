@@ -1,4 +1,3 @@
-import GameObject from "./GameObject.js"
 import GameWindow from "./GameWindow.js"
 import Menu from "./Menu.js"
 import MultiplayerObject from "./MultiplayerObject.js"
@@ -6,6 +5,7 @@ import Vector2 from "./Vector2.js"
 
 export default class Canvas extends Menu{
     #mainWindow
+    #opponentWindow
     #resizeListener = () => { this.resize() }
     #fps = 0
     #serverSize = new Vector2(0, 0)
@@ -25,15 +25,23 @@ export default class Canvas extends Menu{
     }
 
     resize(){
+        //TODO make this a PVP type canvas
+
         let width = window.innerWidth
         let height = window.innerHeight
 
-        let gameWidth = width - 200
+        let gameWidth = width / 2
         let gameHeight = gameWidth * (8 / 7)
 
-        if(gameHeight > gameWidth){
-            gameHeight = height - 400
+        if(gameHeight > window.innerHeight){
+            gameHeight = height
             gameWidth = gameHeight * (7 / 8)
+        }
+
+        let offsetX = 0
+
+        if(window.innerWidth !== gameWidth * 2){
+            offsetX = (window.innerWidth - gameWidth * 2) / 4
         }
 
         this.menu.width = width
@@ -42,9 +50,10 @@ export default class Canvas extends Menu{
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
 
-        this.#mainWindow = new GameWindow(new Vector2(this.size.x / 2 - this.gameWidth / 2, this.size.y / 2 - this.gameHeight / 2), new Vector2(this.gameWidth, this.gameHeight))
+        this.#mainWindow = new GameWindow(new Vector2(offsetX, 0), new Vector2(this.gameWidth, this.gameHeight))
+        this.#opponentWindow = new GameWindow(new Vector2(this.size.x / 2 + offsetX, 0), new Vector2(this.gameWidth, this.gameHeight))
 
-        this.scale = Math.max(gameHeight / this.#serverSize.y, gameWidth / this.#serverSize.x)
+        this.scale = Math.min(gameHeight / this.#serverSize.y, gameWidth / this.#serverSize.x)
     }
 
     get size(){
@@ -72,24 +81,31 @@ export default class Canvas extends Menu{
     }
 
     update(){
+        const t0 = Date.now()
         window.requestAnimationFrame(this.update.bind(this))
-        const t0 = performance.now()
         if(!this.visible) return
         this.clear()
         this.ctx.fillStyle = "#fff"
         this.ctx.strokeStyle = "#fff"
+        this.#mainWindow.gameObjects = []
+        this.#opponentWindow.gameObjects = []
+        MultiplayerObject.MultiplayerObjects.map(gameObject => {
+            if(gameObject.own == true){
+                this.#mainWindow.gameObjects.push(gameObject)
+            }
+            else{
+                this.#opponentWindow.gameObjects.push(gameObject)
+            }
+        })
         this.#mainWindow.draw(this.ctx, this.scale)
-        // GameObject.GameObjects.map(gameObject => {
-        //     gameObject.draw(this.ctx, this.scale)
-        // })
-        // MultiplayerObject.MultiplayerObjects.map(gameObject => {
-        //     gameObject.draw(this.ctx, this.scale)
-        // })
-        const t1 = performance.now()
-        let deltaTime = (t1 - t0)
-        let fps = Math.round(10/deltaTime)
+        this.#opponentWindow.draw(this.ctx, this.scale)
+        this.#mainWindow.update()
+        this.#opponentWindow.update()
+        const t1 = Date.now()
+        let deltaTime = (t1 - t0) / 1000
+        let fps = Math.round(1 / deltaTime)
         if(fps != Infinity) {
-            this.#fps = Math.round(10 / deltaTime)
+            this.#fps = Math.round(1 / deltaTime)
         }
         else{
             fps = this.#fps

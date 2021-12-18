@@ -1,8 +1,8 @@
 const GameObject = require("../Core/GameObject");
 
-module.exports = class Player extends GameObject{
+module.exports = class Projectile extends GameObject{
     constructor(position, size, id) {
         super(position, size, id)
-        this.type = "Player"
+        this.type = "Projectile"
     }
 }
