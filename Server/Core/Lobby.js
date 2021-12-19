@@ -2,6 +2,7 @@ const Player = require("../GameObjects/Player")
 const Projectile = require("../GameObjects/Projectile")
 const Vector2 = require("./Vector2")
 const fs = require('fs')
+const Enemy = require("../GameObjects/Enemy")
 
 module.exports = class Lobby{
     size = new Vector2(1400, 1600)
@@ -31,6 +32,7 @@ module.exports = class Lobby{
             this.gameObjects.push(player)
             socket.emit('sprites', [
                 {name: "Projectile", src: `data:image/png;base64,${fs.readFileSync('./assets/projectile.png', 'base64')}`},
+                {name: "Enemy", src: `data:image/png;base64,${fs.readFileSync('./assets/enemy.png', 'base64')}`},
             ])
             socket.emit('size', this.size)
             this.players.push(global.clients[socket.id])
@@ -66,7 +68,14 @@ module.exports = class Lobby{
                     player.position.x = this.size.x - player.size.x
                 }
             })
-            socket.emit('map', global.maps["level1"])
+            if(!player.map){
+                player.map = global.maps["level1"]
+                player.map.gameObjects.map(gameObject => {
+                    this.gameObjects.push(new Enemy(new Vector2(gameObject.position.x, gameObject.position.y), gameObject.size, socket.id))
+                })
+            }
+            
+            // socket.emit('map', global.maps["level1"])
             socket.emit('joined')
         }
     }
@@ -77,7 +86,7 @@ module.exports = class Lobby{
 
     leave(client){
         this.players.splice(this.players.indexOf(client), 1)
-        this.gameObjects.splice(this.gameObjects.findIndex(gameObject => gameObject.id == client.socket.id), 1)
+        this.gameObjects = this.gameObjects.filter( gameObject => gameObject.id !== client.socket.id )
     }
 
     update(){
@@ -90,6 +99,26 @@ module.exports = class Lobby{
             if(gameObject.type == "Player"){
                 if(gameObject.fireTimer){
                     gameObject.fireTimer -= global.deltaTime
+                }
+            }
+            if(gameObject.type == "Enemy"){
+                if(gameObject.position.x <= 0){
+                    gameObject.position.x = 0
+                    gameObject.direction = "right"
+                    this.gameObjects.map(g => {
+                        if(g.type == "Enemy" && g.id == gameObject.id){
+                            g.direction = "right"
+                        }
+                    })
+                }
+                else if(gameObject.position.x > this.size.x - gameObject.size.x - 16){
+                    gameObject.position.x = this.size.x - gameObject.size.x - 16
+                    gameObject.direction = "left"
+                    this.gameObjects.map(g => {
+                        if(g.type == "Enemy" && g.id == gameObject.id){
+                            g.direction = "left"
+                        }
+                    })
                 }
             }
             gameObject.update()
