@@ -6,6 +6,11 @@ let playerId
 window.sprites = {}
 
 export default function HandlePlayer(client){
+    client.on('joined', (data) => {
+        window.lobbiesMenu.remove()
+        window.canvas.add()
+    })
+
     client.on('player', (data) => {
         playerId = data.id
         window.playerImg = new Image()

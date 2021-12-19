@@ -5,7 +5,8 @@ export default class OptionsMenu extends Menu{
     constructor() {
         super()
         HTMLLoader.Load("Elements/OptionsMenu/index.html").then(html => {
-            this.menu.insertAdjacentHTML("beforeend", html)
+            // this.menu.insertAdjacentElement("beforeend", html)
+            this.menu.innerHTML += html
             super.hide()
             this.menuHolder = document.getElementById('options-menu') 
             this.controlsButton = document.getElementById('controls')

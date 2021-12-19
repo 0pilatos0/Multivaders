@@ -39,6 +39,10 @@ module.exports = class Server{
             socket.on('disconnect', () => {
                 Logger.Log("Client disconnected", `Client has disconnected succesful using socket id: ${socket.id}`, "no futher actions needed", "9936031")
                 console.log(`-${socket.id}`)
+                let client = global.clients[socket.id]
+                if(client.lobby){
+                    client.lobby.leave(client)
+                }
                 delete global.clients[socket.id]
             })
         })

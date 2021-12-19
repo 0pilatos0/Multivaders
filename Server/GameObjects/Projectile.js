@@ -5,4 +5,8 @@ module.exports = class Projectile extends GameObject{
         super(position, size, id)
         this.type = "Projectile"
     }
+
+    update(){
+        this.position.y -= global.deltaTime
+    }
 }

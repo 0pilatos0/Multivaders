@@ -5,16 +5,17 @@ export default class MainMenu extends Menu{
     constructor() {
         super()
         HTMLLoader.Load("Elements/MainMenu/index.html").then(html => {
-            this.menu.insertAdjacentHTML("beforeend", html)
+            // this.menu.insertAdjacentElement("beforeend", html)
+            this.menu.innerHTML += html
             super.hide()
             this.menuHolder = document.getElementById('main-menu')
-
             //play button logic
             this.playButton = document.getElementById('play')
             this.playButton.addEventListener('click', () => {
                 this.hide()
-                window.canvas.add()
-                window.client.emit('join')
+                window.client.emit('lobbies')
+                // window.canvas.add()
+                // window.client.emit('join')
             })
 
             //settings button logic

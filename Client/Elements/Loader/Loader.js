@@ -8,7 +8,8 @@ export default class Loader extends Menu{
     constructor(info) {
         super()
         HTMLLoader.Load("Elements/Loader/index.html").then(html => {
-            this.menu.insertAdjacentHTML("beforeend", html)
+            // this.menu.insertAdjacentHTML("beforeend", html)
+            this.menu.innerHTML += html
 
             let infoHolder = document.getElementById('loader-info')
 

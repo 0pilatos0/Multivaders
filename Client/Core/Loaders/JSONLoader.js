@@ -1,19 +1,19 @@
 export default class JSONLoader{
     static Load(path){
         return new Promise((resolve, reject) => {
-            let xhr = new XMLHttpRequest();
-            xhr.responseType = "json";
-            xhr.open('GET', path, true);
+            let xhr = new XMLHttpRequest()
+            xhr.responseType = "json"
+            xhr.open('GET', path, true)
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-                        resolve(xhr.response);
+                        resolve(xhr.response)
                     } else {
-                        reject(xhr.statusText);
+                        reject(xhr.statusText)
                     }
                 }
-            };
-            xhr.send();
-        });
+            }
+            xhr.send()
+        })
     }
 }

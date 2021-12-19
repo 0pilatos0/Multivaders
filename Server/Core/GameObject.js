@@ -4,4 +4,8 @@ module.exports = class GameObject{
         this.size = size
         this.id = id
     }
+
+    update(){
+        
+    }
 }
