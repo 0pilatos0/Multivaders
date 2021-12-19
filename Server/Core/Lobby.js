@@ -23,14 +23,14 @@ module.exports = class Lobby{
             global.clients[socket.id].lobby = this
             let player = new Player(new Vector2(this.size.x / 2 - 32, this.size.y - 96), new Vector2(64, 64), socket.id)
             socket.emit('player', {
-                sprite:`data:image/png;base64,${fs.readFileSync('./assets/player.png').toString('base64')}`,
+                sprite:`data:image/png;base64,${fs.readFileSync('./assets/player.png', 'base64')}`,
                 position: player.position,
                 size: player.size,
                 id: player.id
             })
             this.gameObjects.push(player)
             socket.emit('sprites', [
-                {name: "Projectile", src: `data:image/png;base64,${fs.readFileSync('./assets/projectile.png').toString('base64')}`}
+                {name: "Projectile", src: `data:image/png;base64,${fs.readFileSync('./assets/projectile.png', 'base64')}`},
             ])
             socket.emit('size', this.size)
             this.players.push(global.clients[socket.id])
@@ -66,6 +66,7 @@ module.exports = class Lobby{
                     player.position.x = this.size.x - player.size.x
                 }
             })
+            socket.emit('map', global.maps["level1"])
             socket.emit('joined')
         }
     }

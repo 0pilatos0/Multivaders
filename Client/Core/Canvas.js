@@ -1,3 +1,4 @@
+import GameObject from "./GameObject.js"
 import GameWindow from "./GameWindow.js"
 import Menu from "./Menu.js"
 import MultiplayerObject from "./MultiplayerObject.js"
@@ -88,6 +89,9 @@ export default class Canvas extends Menu{
         this.ctx.fillStyle = "#fff"
         this.ctx.strokeStyle = "#fff"
         this.#mainWindow.gameObjects = []
+        GameObject.GameObjects.map(gameObject => {
+            this.#mainWindow.gameObjects.push(gameObject)
+        })
         this.#opponentWindow.gameObjects = []
         MultiplayerObject.MultiplayerObjects.map(gameObject => {
             if(gameObject.own == true){

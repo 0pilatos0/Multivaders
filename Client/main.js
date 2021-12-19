@@ -8,6 +8,7 @@ import MainMenu from "./Elements/MainMenu/MainMenu.js";
 import OptionsMenu from "./Elements/OptionsMenu/OptionsMenu.js";
 import HandleLobbies from "./Handlers/LobbiesHandler.js";
 import HTMLLoader from "./Core/Loaders/HTMLLoader.js";
+import HandleMap from "./Handlers/MapHandler.js";
 
 let connectingLoader = new Loader("Connecting to server")
 window.mainMenu = new MainMenu()
@@ -32,6 +33,7 @@ JSONLoader.Load("config.json").then(config => {
 
         HandlePlayer(client)
         HandleLobbies(client)
+        HandleMap(client)
     
         window.client.on('disconnect', () => {
             console.log("disconnected from server")

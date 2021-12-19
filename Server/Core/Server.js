@@ -3,8 +3,10 @@ const http = require('http')
 const io = require('socket.io')
 const HandlePlayer = require('../Handlers/PlayerHandler')
 const Logger = require('../Core/Logger')
+const Map = require('./Map')
 
 global.clients = {}
+global.maps = {}
 
 module.exports = class Server{
     #http = http.createServer()
@@ -21,6 +23,7 @@ module.exports = class Server{
         this.#http.listen(process.env.PORT, () => {
             console.log(`Server listening on http://localhost:${this.#http.address().port}`)
             Logger.Log("Server started", "Server has been started succesful", "no futher actions needed", "3066993")
+            LoadLevels()
         })
 
         this.#io.on('connection', (socket) => {
@@ -47,4 +50,8 @@ module.exports = class Server{
             })
         })
     }
+}
+
+function LoadLevels(){
+    global.maps["level1"] = Map.Load(`${__dirname}/../assets/levels/level1/map.json`)
 }
